@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <fstream>
 #include <string>
@@ -14,119 +14,56 @@ int sector(int& currentSector, int& offset, std::vector<int>& sectorCount, std::
     }
 }
 
-std::string getQuestionFromFile(const std::string& filePath) {
-    std::string quest;
-    std::ifstream question(filePath);
-    if (question.is_open()) {
-        while (!question.eof()) {
-            question >> quest;
-            std::cout << quest << " ";
-        }
-        question.close();
+void getQuestion(int& currentSector) {
+    std::ifstream Questions;
+    Questions.open("C:\\Users\\amidamaru\\Documents\\Questions.txt");
+    if (!Questions.is_open()) {
+        std::cerr << "Error opening file" << std::endl;
     }
-    return quest;
-}
-
-void questionShow(int& currentSector) {
     
-    if (currentSector == 1) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\1\\Question.txt");
+    std::string question;
+
+    while (std::getline(Questions, question)) {
+        std::string number;
+        for (int i = 0; i < question.size(); i++) {
+            if (question[i] == '.') {
+                break;
+            }
+            number.push_back(question[i]);
+        }
+        int num = std::stoi(number);
+        if (num == currentSector) {
+            std::cout << question;
+            break;
+        }
     }
-    else if (currentSector == 2) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\2\\Question.txt");        
-    }
-    else if (currentSector == 3) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\3\\Question.txt");
-    }
-    else if (currentSector == 4) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\4\\Question.txt");
-    }
-    else if (currentSector == 5) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\5\\Question.txt");
-    }
-    else if (currentSector == 6) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\6\\Question.txt");
-    }
-    else if (currentSector == 7) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\7\\Question.txt");
-    }
-    else if (currentSector == 8) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\8\\Question.txt");
-    }
-    else if (currentSector == 9) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\9\\Question.txt");
-    }
-    else if (currentSector == 10) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\10\\Question.txt");
-    }
-    else if (currentSector == 11) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\11\\Question.txt");
-    }
-    else if (currentSector == 12) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\12\\Question.txt");
-    }
-    else if (currentSector == 13) {
-        getQuestionFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\13\\Question.txt");
-    }
+    Questions.close();
+    
 }
 
-std::string getAnswerFromFile(const std::string& filePath, std::string& rightAnswer) {
-    std::ifstream answerFile(filePath);
-
-    if (answerFile.is_open()) {
-        answerFile >> rightAnswer; //Считывание одного слова (ответа)
-        answerFile.close();
-    }
-
-    return rightAnswer;
-}
 
 void getAnswer(int& currentSector, std::string& rightAnswer) {
+    std::ifstream Answers;
+    Answers.open("C:\\Users\\amidamaru\\Documents\\Answers.txt");
+    if (!Answers.is_open()) {
+        std::cerr << "Error opening file" << std::endl;
+    }
+    std::string answ;
 
-    if (currentSector == 1) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\1\\Answer.txt", rightAnswer);
+    while (std::getline(Answers, answ)) {
+        size_t dotPos = answ.find('.');
+        if (dotPos != std::string::npos) {
+            int num = std::stoi(answ.substr(0, dotPos));
+            if (num == currentSector) {
+                rightAnswer = answ.substr(dotPos + 2);  //Берем часть после точки + пробел
+                break;
+            }
+        }
     }
-    else if (currentSector == 2) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\2\\Answer.txt", rightAnswer);
-    }
-    else if (currentSector == 3) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\3\\Answer.txt", rightAnswer);
-    }
-    else if (currentSector == 4) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\4\\Answer.txt", rightAnswer);
-    }
-    else if (currentSector == 5) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\5\\Answer.txt", rightAnswer);
-    }
-    else if (currentSector == 6) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\6\\Answer.txt", rightAnswer);
-    }
-    else if (currentSector == 7) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\7\\Answer.txt", rightAnswer);
-    }
-    else if (currentSector == 8) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\8\\Answer.txt", rightAnswer);
-    }
-    else if (currentSector == 9) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\9\\Answer.txt", rightAnswer);
-    }
-    else if (currentSector == 10) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\10\\Answer.txt", rightAnswer);
-    }
-    else if (currentSector == 11) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\11\\Answer.txt", rightAnswer);
-    }
-    else if (currentSector == 12) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\12\\Answer.txt", rightAnswer);
-    }
-    else if (currentSector == 13) {
-        getAnswerFromFile("C:\\Users\\user\\Documents\\Программы\\cpp\\19.5\\5. Что-где-когда\\вопросы\\13\\Answer.txt", rightAnswer);
-    }
+    Answers.close();
 }
 
-int compareAnswers(const std::string& answer, const std::string& rightAnswer) {
-    int audience = 0;
-    int team = 0;
+void compareAnswers(const std::string& answer, const std::string& rightAnswer, int& audience, int& team) {
     if (answer == rightAnswer) {
         std::cout << "The answer is right!\n";
         team++;
@@ -135,38 +72,47 @@ int compareAnswers(const std::string& answer, const std::string& rightAnswer) {
         std::cout << "The answer is wrong!!\n";
         audience++;
     }
-    if (team > 6) {
-        std::cout << "The team has won!\n";
-    }
-    else {
-        std::cout << "The audience has won!\n";
-    }
-    return audience, team;
 }
 
 int main()
 {
+    
     int offset;
     std::vector<int> sectorCount(13);
+    for (int i = 0; i < sectorCount.size(); ++i) {
+        sectorCount[i] = i + 1;
+    }
     int currentSector = 1;
-    std::vector<std::string> bufferQ; //хранение данных из файла вопросов
     std::string answer;
     std::string rightAnswer;
     std::vector<bool> visited(sectorCount.size(), false);
 
+    int audience = 0;
+    int team = 0;
+
     for (int i = 0; i < sectorCount.size(); i++) {
-        while (!visited[i]) {
-            std::cout << "Enter an offset: ";
-            std::cin >> offset;
-            currentSector = sector(currentSector, offset, sectorCount, visited);
+        std::cout << "Enter an offset: ";
+        std::cin >> offset;
+        currentSector = sector(currentSector, offset, sectorCount, visited);
 
-            questionShow(currentSector);
+        getQuestion(currentSector);
 
-            std::cout << "Enter your answer with one word and with small letter:\n";
-            std::cin >> answer;
+        std::cout << "\nEnter your answer with one word and with big letter:\n";
+        std::cin >> answer;
 
-            getAnswer(currentSector, rightAnswer);
-            compareAnswers(answer, rightAnswer);
+        getAnswer(currentSector, rightAnswer);
+        compareAnswers(answer, rightAnswer, audience, team);
+
+        std::cout << "Right answer: " << rightAnswer << std::endl;
+        std::cout << "Your answer: " << answer << std::endl;
+
+        if (team == 6) {
+            std::cout << "The team has won!\n";
+            break;
         }
-    }    
+        else if (audience == 6) {
+            std::cout << "The audience has won!\n";
+            break;
+        }     
+    }
 }
